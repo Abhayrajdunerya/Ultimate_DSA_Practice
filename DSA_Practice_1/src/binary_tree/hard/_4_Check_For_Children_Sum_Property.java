@@ -36,6 +36,21 @@ public class _4_Check_For_Children_Sum_Property {
         return ans.isTrue ? 1 : 0;
     }
 
+    // new solution
+    public static boolean isParentSum(Node root) {
+        if (root == null || (root.left == null && root.right == null)) return true;
+
+        boolean left = isParentSum(root.left);
+        boolean right = isParentSum(root.right);
+
+        int leftNum = root.left == null ? 0 : root.left.data;
+        int rightNum = root.right == null ? 0 : root.right.data;
+
+        int sum = leftNum+rightNum;
+
+        return left && right && root.data == sum;
+    }
+
     public static void main(String[] args) {
 
     }
