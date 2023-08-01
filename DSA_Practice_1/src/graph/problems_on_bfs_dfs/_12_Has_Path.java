@@ -1,46 +1,36 @@
-package graph.traversals;
+package graph.problems_on_bfs_dfs;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
 
 import graph.Edge;
 
-public class BFS {
+public class _12_Has_Path {
 
-    // O(V+E), 
-    public static void bfs(ArrayList<Edge> graph[]) {
-        boolean vis[] = new boolean[graph.length];
+    public static boolean hasPathUtil(ArrayList<Edge> graph[], int src, int dest, boolean vis[]) {
+        if (src == dest) return true;
 
-        for (int i = 0; i < graph.length; i++) {
-            if (!vis[i]) {
-                bfs_util(graph, vis);
+        vis[src] = true;
+
+        for (int i = 0; i < graph[src].size(); i++) {
+            Edge e = graph[src].get(i);
+
+            if (!vis[e.dest] && hasPathUtil(graph, e.dest, dest, vis)) {
+                return true;
             }
         }
+
+        return false;
     }
 
-    public static void bfs_util(ArrayList<Edge> graph[], boolean vis[]) {
-        Queue<Integer> q = new LinkedList<>();
+    public static boolean hasPath(ArrayList<Edge> graph[], int src, int dest) {
+        if (src >= graph.length) return false;
+        boolean vis[] = new boolean[graph.length];
 
-        q.add(0); // src
-        while (!q.isEmpty()) {
-            int curr = q.remove();
-
-            if (!vis[curr]) {
-                System.out.print(curr + " ");
-                vis[curr] = true;
-
-                for (int i = 0; i < graph[curr].size(); i++) {
-                    Edge e = graph[curr].get(i);
-                    q.add(e.dest);
-                }
-            }
-        }
+        return hasPathUtil(graph, src, dest, vis);
 
     }
 
     public static void main(String[] args) {
-
         ArrayList<Edge> graph[] = new ArrayList[7];
 
         for (int i = 0; i < graph.length; i++) {
@@ -70,7 +60,6 @@ public class BFS {
 
         graph[6].add(new Edge(6, 5, 0));
 
-        bfs(graph);
-
+        System.out.println(hasPath(graph, 0, 5));
     }
 }

@@ -1,5 +1,7 @@
 package binary_search_tree;
 
+import javax.swing.tree.TreeNode;
+
 import binary_search_tree.BST.Node;
 
 public class _6_Kth_Smallest_Largest_Ele {
@@ -19,6 +21,34 @@ public class _6_Kth_Smallest_Largest_Ele {
         Node ans = kthSmallest_rec(root, k);
         return ans == null ? -1 : ans.data;
     }
+    
+
+    // ------------------------------------------------------------------------------------------
+
+
+    // new solution
+    public static boolean solve_1(Node root, int k[], int[] ans) {
+		if (root == null) return false;
+
+		if (solve_1(root.left, k, ans)) return true;
+		if (k[0] == 1) {
+			ans[0] = root.data;
+			return true;
+		}
+		k[0]--;
+		if (solve_1(root.right, k, ans)) return true;
+
+		return false;
+	}
+	public static int kthSmallest_new(Node root, int k) {
+		int ans[] = new int[1];
+		int K[] = new int[1];
+		K[0] = k;
+
+		ans[0] = -1;
+		solve_1(root, K, ans);
+		return ans[0];
+	}
 
     public static void main(String[] args) {
         int tree_levelorder[] = {5,3,6,2,4,-1,-1,1};
